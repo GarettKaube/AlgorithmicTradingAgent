@@ -14,8 +14,6 @@ def get_secret(secret_name):
     -------
     - list of secret values
     """
-
-    # Create a Secrets Manager client
     client = boto3.client("secretsmanager")
     response = client.get_secret_value(SecretId=secret_name)
 
