@@ -1,1 +1,59 @@
 # AlgorithmicTradingAgentWithMachineLearning
+### Modeling Process:
+Using the spread calculations as in Fu, Kang, Hong, and Kim (2024)
+the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolling standardization is applied to it:
+
+$$StardizedSpread_t = \frac{Spread_t - \mu_t}{\sigma_t},$$
+
+$$\mu_t = \frac{1}{L}\sum_{i=0}^{L}Spread_{t-i},$$
+
+$$\sigma_t^2 = \frac{1}{L-1}\sum_{i=0}^{L}(Spread_{t-i} - \mu_t)^2$$
+
+Where $\mu_t$ and $\sigma_t$ are the moving average and moving standard deviation of the spread and $L$ is the size of the window.
+
+The spread is then labeled using the triple barrier method. The following plot shows the results:
+
+![newplot](https://github.com/user-attachments/assets/202280e2-adf9-49dc-be55-05d4d48f443b)
+
+Next, features such as the entropy of price direction of both assets are calculated and technical features.
+The standard OHLCV features for each asset were also included.
+
+A 2 state hidden markov model with Gaussian emmisions is trained to detect hidden regimes in the spread.
+These hidden regimes are used as inputs to the final model that produces signals. The most probable transistions for the Markov process are used as features and defined as:
+
+$$\tilde{S}_ {t+i}=argmax_{S_{t+i}\in\{1,2\}}P(S_{t+i} | S_{t})$$ 
+
+where $S_t$ is the hidden state at time $t$. The following plot shows the estimated hidden states:
+
+![output](https://github.com/user-attachments/assets/c4905aaf-1470-4698-a957-668c4fdb0bec)
+
+Next an XGBoost model is was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (not nested). Optuna was used to tune hyperparameters.
+The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earlies observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was very good with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
+The final model is logged to a MLflow tracking server.
+
+### Backtesting:
+Backtrader was used for backtesting. The strategy as outlined in the paper is as follows:
+- When the XGBoost predicts 1, BTC is overperforming so we buy ETH expecting it to catch up to BTC.
+- When the XGBoost predicts 0, ETH is overperforming so we buy BTC expecting it to catch up to BTC.
+- We hold until any of the 3 barriers are touched.
+  
+The out of sample results with a constant position size of 40% and starting capital of 100,000:
+
+| Metric              | Value             |
+|---------------------|-------------------|
+|Final Portfolio Value| 1297290.84        |
+|Cumulative Return    | 0.2758925832934964|
+|Sharpe Ratio | 1.0722631487780885|
+|Profit_ratio| 1.2972908434492345|
+|drawdown pct| 0.056595542654838855|
+|Drawdown cash| 77825.45301171998|
+
+### Software:
+The overall architecture is shown in the figure:
+![FinancialAssetsDataModel-Page-2(2)](https://github.com/user-attachments/assets/5290069b-a7e5-41ab-bfaf-76a50e835470)
+
+References:
+
+1. Fu, Ning, Mingu Kang, Joongi Hong, and Suntae Kim. 2024. "Enhanced Genetic-Algorithm-Driven Triple Barrier Labeling Method and Machine Learning Approach for Pair Trading Strategy in Cryptocurrency Markets" Mathematics 12, no. 5: 780. https://doi.org/10.3390/math12050780
+2. Lopez de Prado, Marcos. Advances in Financial Machine Learning. Hoboken, NJ: Wiley, 2018.
+
