@@ -1,0 +1,8 @@
+{
+    "vpc_id": "",
+    "subnets":{
+        "public": ["", ""],
+        "private": ["", ""]
+    },
+    "route_tables": ["", ""]
+}

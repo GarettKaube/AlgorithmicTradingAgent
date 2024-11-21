@@ -1,0 +1,61 @@
+version: 2
+sources:
+  - name: asset_data_source
+    database: DATA_ENG_DBT
+    schema: STAGING
+    tables:
+      - name: ASSET_SOURCE
+
+        columns:
+          - name: SYMBOL
+            description: "Symbol of the asset"
+            tests:
+              - not_null 
+
+          - name: CLOSE
+            description: "The days close price of a symbol"
+            tests:
+              - not_null
+
+          - name: DATE
+            description: "Date of the observation"
+            tests:
+              - not_null
+
+          - name: HIGH
+            description: "Highest price of the day"
+            tests:
+              - not_null
+
+          - name: LOW
+            description: "Lowest price of the day"
+            tests:
+              - not_null
+
+          - name: OPEN
+            description: "Open price of the day"
+            tests:
+              - not_null
+          
+          - name: CURRENCY
+            description: "Currency the close,high, low, and open are in"
+            tests:
+              - not_null
+        
+
+          - name: ADJ_CLOSE
+            description: "Adjuseted close price of the day"
+            tests:
+              - not_null
+
+          - name: VOLUME
+            description: "Volume of the day for the asset"
+            tests:
+              - not_null
+
+          - name: EXCHANGE
+            description: "EXCHANGE where the asset is traded"
+            tests:
+              - not_null
+      - name: POSITION_SOURCE   
+      - name: PREDICTION_SOURCE  

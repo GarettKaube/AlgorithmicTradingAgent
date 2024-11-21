@@ -1,0 +1,20 @@
+
+name: Deploy MWAA Temporarily
+
+on:
+  workflow_dispatch:
+
+jobs:
+  delete-mwaa:
+      runs-on: ubuntu-latest
+      steps:
+        - name: AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v2
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-west-1
+
+        - name: Tear down MWAA
+          run: |
+            aws mwaa delete-environment --name temporary-mwaa --region us-west-1

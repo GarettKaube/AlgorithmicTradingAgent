@@ -1,0 +1,14 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ var('DBT_HOST') }}"
+      user: "{{ var('DBT_USER') }}"
+      password: "{{ var('DBT_PASSWORD') }}"
+      role: DBT_EXECUTOR_ROLE
+      database: DATA_ENG_DBT
+      warehouse: COMPUTE_WH
+      schema: PROD
+      threads: 4
+      client_session_keep_alive: False

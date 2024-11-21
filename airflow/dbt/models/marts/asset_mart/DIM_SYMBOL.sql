@@ -1,0 +1,2 @@
+SELECT * EXCLUDE (SYMBOL_HKEY, SYMBOL_HDIFF, LOAD_TS_UTC, SNSH_LOAD_TS_UTC)
+FROM {{ ref("transformed_symbol_info") }}

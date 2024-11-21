@@ -1,0 +1,56 @@
+version: 2
+
+models:
+    - name: transformed_ohlc_data
+      columns:
+
+        - name: SYMBOL_CODE
+          description: "Symbol of the asset"
+          tests:
+            - not_null 
+
+        - name: CLOSE
+          description: "The days close price of a symbol"
+          tests:
+            - not_null
+            - check_non_negative
+
+        - name: DATE_CODE
+          description: "Date of the observation"
+          tests:
+            - not_null
+
+        - name: HIGH
+          description: "Highest price of the day"
+          tests:
+            - not_null
+
+        - name: LOW
+          description: "Lowest price of the day"
+          tests:
+            - not_null
+
+        - name: OPEN
+          description: "Open price of the day"
+          tests:
+            - not_null
+        
+        - name: CURRENCY_CODE
+          description: "Currency the close,high, low, and open are in"
+          tests:
+            - not_null
+
+        - name: ADJUSTED_CLOSE
+          description: "Adjuseted close price of the day"
+          tests:
+            - not_null
+
+        - name: VOLUME
+          description: "Volume of the day for the asset"
+          tests:
+            - not_null
+
+        - name: EXCHANGE_CODE
+          description: "EXCHANGE where the asset is traded"
+          tests:
+            - not_null

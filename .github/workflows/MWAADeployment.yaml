@@ -1,0 +1,31 @@
+
+name: Deploy MWAA Temporarily
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  create-and-run-mwaa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+
+          
+      - name: Set up AWS CLI
+        run: |
+          aws mwaa create-environment \
+            --name temporary-mwaa \
+            --airflow-version 2.10.1 \
+            --execution-role-arn arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/service-role/${{ secrets.MWAA_EXECUTION_ROLE_NAME }} \
+            --dag-s3-path dags/ \
+            --requirements-s3-path requirements.txt \
+            --source-bucket-arn arn:aws:s3:::${{ secrets.AIRFLOW_S3_BUCKET }} \
+            --network-configuration '{"SecurityGroupIds":["sg-047a6c465429aef96"],"SubnetIds":["subnet-0b857b511d2f1f9d7","subnet-079102f4919e0f1ef"]}' \
+            --webserver-access-mode PUBLIC_ONLY \
+            --region us-west-1

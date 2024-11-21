@@ -1,0 +1,42 @@
+
+version: 2
+
+seeds:
+  - name: dates
+    columns:
+        - name: date_id
+          tests:
+            - not_null
+            - unique
+        - name: year
+          tests:
+            - not_null
+            - dbt_utils.accepted_range:
+                min_value: 2000
+                max_value: 2100
+        - name: month
+          tests:
+            - not_null
+            - dbt_utils.accepted_range:
+                min_value: 1
+                max_value: 12
+        - name: day
+          tests:
+            - not_null
+            - dbt_utils.accepted_range:
+                min_value: 1
+                max_value: 31
+
+  - name: symbol_info
+    columns:
+        - name: symbol
+          tests:
+            - not_null
+            - unique
+        - name: name
+          tests:
+            - not_null
+            - unique
+
+
+    

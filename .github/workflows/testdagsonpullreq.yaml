@@ -1,0 +1,54 @@
+name: Test Airflow Dags
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+    - 'airflow/**'
+
+
+jobs:
+  Test_Dags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' 
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r ./airflow/requirements_testing.txt
+          
+      - name: Run tests
+        run: |
+          source venv/bin/activate
+          export AIRFLOW_HOME=$(pwd)/airflow
+          airflow db init
+          pytest tests/test_airflow_dags --junitxml=test-results.xml --cov=. --cov-report=xml
+        continue-on-error: false
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-1
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results.xml
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
