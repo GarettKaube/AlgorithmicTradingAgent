@@ -132,7 +132,6 @@ def get_ecs_task_arn(ti):
 
     task_arns = task_arns_response['taskArns']
 
-    # Step 2: Describe the tasks if there are any
     if task_arns:
         tasks_response = ecs_client.describe_tasks(cluster=cluster_name, tasks=task_arns)
         tasks = tasks_response['tasks']
