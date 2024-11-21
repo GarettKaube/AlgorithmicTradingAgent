@@ -13,7 +13,7 @@ Where $\mu_t$ and $\sigma_t$ are the moving average and moving standard deviatio
 
 The spread is then labeled using the triple barrier method. The following plot shows the results:
 
-![newplot](https://github.com/user-attachments/assets/202280e2-adf9-49dc-be55-05d4d48f443b)
+![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
 
 Next, features such as the entropy of price direction of both assets are calculated and technical features.
 The standard OHLCV features for each asset were also included.
@@ -25,7 +25,7 @@ $$\tilde{S}_ {t+i}=argmax_{S_{t+i}\in\{1,2\}}P(S_{t+i} | S_{t})$$
 
 where $S_t$ is the hidden state at time $t$. The following plot shows the estimated hidden states:
 
-![output](https://github.com/user-attachments/assets/c4905aaf-1470-4698-a957-668c4fdb0bec)
+![output](https://github.com/user-attachments/assets/5cc1f747-1a7e-4e53-bb61-afa8f322ab3c)
 
 Next an XGBoost model is was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (not nested). Optuna was used to tune hyperparameters.
 The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earlies observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was very good with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
@@ -50,7 +50,8 @@ The out of sample results with a constant position size of 40% and starting capi
 
 ### Software:
 The overall architecture is shown in the figure:
-![FinancialAssetsDataModel-Page-2(2)](https://github.com/user-attachments/assets/5290069b-a7e5-41ab-bfaf-76a50e835470)
+![FinancialAssetsDataModel-Page-2(2)](https://github.com/user-attachments/assets/1bc5885e-2408-49d4-8403-c07b02516c30)
+
 
 References:
 
