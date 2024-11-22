@@ -27,7 +27,7 @@ where $S_t$ is the hidden state at time $t$. The following plot shows the estima
 
 ![output](https://github.com/user-attachments/assets/5cc1f747-1a7e-4e53-bb61-afa8f322ab3c)
 
-Next an XGBoost model is was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (not nested). Optuna was used to tune hyperparameters.
+Next, XGBoost was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (the non nested was covered). Optuna was used to tune hyperparameters with a Parzen-Tree Estimator Bayesian optimizer.
 The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earlies observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was very good with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
 The final model is logged to a MLflow tracking server.
 
