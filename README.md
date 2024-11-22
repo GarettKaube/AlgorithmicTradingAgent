@@ -65,6 +65,8 @@ The out of sample results with a constant position size of 40% and starting capi
 |drawdown pct| 0.056595542654838855|
 |Drawdown cash| 77825.45301171998|
 
+More rigorous backtesting still needs to be done. Such as backtesting on synthetic data.
+
 ### Software:
 The overall architecture is shown in the figure:
 ![FinancialAssetsDataModel-Page-2(2)](https://github.com/user-attachments/assets/1bc5885e-2408-49d4-8403-c07b02516c30)
