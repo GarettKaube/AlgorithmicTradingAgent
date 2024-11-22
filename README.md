@@ -11,9 +11,26 @@ $$\sigma_t^2 = \frac{1}{L-1}\sum_{i=0}^{L}(Spread_{t-i} - \mu_t)^2$$
 
 Where $\mu_t$ and $\sigma_t$ are the moving average and moving standard deviation of the spread and $L$ is the size of the window.
 
-The spread is then labeled using the triple barrier method. The following plot shows the results:
+The spread is then labeled using the triple barrier method. 
+Given a spread observation: $s_ {t_i}$ and $s_ {t_ {i+1}},..., s_ {t_{i+n}}$ 
+are the spread values after ${t_i}$ and $t_ {i+n}$ is the timestamp of the max holding period. The label function is as follows:
+
+$$ UT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \geq U, j>i \\} \cup \\{ t_{i+n} \\}) $$
+$$ LT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \leq L, j>i \\} \cup \\{ t_{i+n} \\}) $$
+
+$$
+f(s_ {t_i}) =
+\begin{cases} 
+1, & \text{if } UT(s_ {t_i}) \gt LT(s_ {t_i}) \\
+-1, & \text{if } UT(s_ {t_i}) \lt LT(s_ {t_i}) \\
+0, & else
+\end{cases}
+$$
+
+The following plot shows the results:
 
 ![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
+When training the model, the 0 label was rare so observations with label 0 are dropped.
 
 Next, features such as the entropy of price direction of both assets are calculated and technical features.
 The standard OHLCV features for each asset were also included.
