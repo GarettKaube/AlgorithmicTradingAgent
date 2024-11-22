@@ -15,8 +15,8 @@ The spread is then labeled using the triple barrier method.
 Given a spread observation: $s_ {t_i}$ and $s_ {t_ {i+1}},..., s_ {t_{i+n}}$ 
 are the spread values after ${t_i}$ and $t_ {i+n}$ is the timestamp of the max holding period. The label function is as follows:
 
-$$ UT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \geq U, j>i \\} \cup \\{ t_{i+n} \\}) $$
-$$ LT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \leq L, j>i \\} \cup \\{ t_{i+n} \\}) $$
+$$ UT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \geq U, i < j < i+n \\} \cup \\{ t_{i+n} \\}) $$
+$$ LT(s_ {t_i})  = \text{min}(\\{ t_{j} :  s_ {t_j} \leq L, i < j< i+n \\} \cup \\{ t_{i+n} \\}) $$
 
 $$
 f(s_ {t_i}) =
