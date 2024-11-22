@@ -1,4 +1,4 @@
-# AlgorithmicTradingAgentWithMachineLearning
+# Algorithmic Trading Agent using XGBoost and hidden Markov models
 ### Modeling Process:
 Using the spread calculations as in Fu, Kang, Hong, and Kim (2024)
 the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolling standardization is applied to it:
