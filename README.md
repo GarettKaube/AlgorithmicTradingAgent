@@ -38,14 +38,14 @@ The standard OHLCV features for each asset were also included.
 A 2 state hidden markov model with Gaussian emmisions is trained to detect hidden regimes in the spread.
 These hidden regimes are used as inputs to the final model that produces signals. The most probable transistions for the Markov process are used as features and defined as:
 
-$$\tilde{S}_ {t+i}=argmax_{S_{t+i}\in\{1,2\}}P(S_{t+i} | S_{t})$$ 
+$$\tilde{S}_ {t+i}=\text{argmax}_ {S_{t+i}\in\\{0,1\\}}P(S_{t+i} | S_{t})$$ 
 
 where $S_t$ is the hidden state at time $t$. The following plot shows the estimated hidden states:
 
 ![output](https://github.com/user-attachments/assets/5cc1f747-1a7e-4e53-bb61-afa8f322ab3c)
 
 Next, XGBoost was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (the non nested was covered). Optuna was used to tune hyperparameters with a Parzen-Tree Estimator Bayesian optimizer.
-The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earlies observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was very good with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
+The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earlies observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was exceptional with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
 The final model is logged to a MLflow tracking server.
 
 ### Backtesting:
