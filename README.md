@@ -38,7 +38,7 @@ The standard OHLCV features for each asset were also included.
 A 2 state hidden markov model with Gaussian emmisions is trained to detect hidden regimes in the spread.
 These hidden regimes are used as inputs to the final model that produces signals. The most probable transistions for the Markov process are used as features and defined as:
 
-$$\tilde{S}_ {t+i}=\text{argmax}_ {S_{t+i}\in\\{0,1\\}}P(S_{t+i} | S_{t})$$ 
+$$\tilde{S}_ {t+i}= \underset{{S_{t+i}\in\\{0,1\\}}}{\text{argmax} }P(S_{t+i} | S_{t})$$ 
 
 where $S_t$ is the hidden state at time $t$. The following plot shows the estimated hidden states:
 
