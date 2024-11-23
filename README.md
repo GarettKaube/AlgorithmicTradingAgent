@@ -27,6 +27,7 @@ f(s_ {t_i}) =
 \end{cases}
 $$
 
+Where $U\text{ and }L$ are the upper and lower thresholds for labeling. $UT\text{ and }LT$ are the first touch times for each barrier.
 The following plot shows the results:
 
 ![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
