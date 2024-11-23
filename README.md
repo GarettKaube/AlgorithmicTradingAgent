@@ -4,11 +4,12 @@
 Using the spread calculations as in Fu, Kang, Hong, and Kim (2024)
 the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolling standardization is applied to it:
 
+$$Spread_t = \Delta \text{BTC-USD}_ t / \text{BTC-USD}_ {t-1} - \Delta \text{ETH-USD}_ t / \text{ETH-USD}_ {t-1}$$
+
 $$StardizedSpread_t = \frac{Spread_t - \mu_t}{\sigma_t},$$
 
-$$\mu_t = \frac{1}{L}\sum_{i=0}^{L}Spread_{t-i},$$
+$$\mu_t = \frac{1}{L}\sum_{i=0}^{L}Spread_{t-i}, \\; \sigma_t^2 = \frac{1}{L-1}\sum_{i=0}^{L}(Spread_{t-i} - \mu_t)^2$$
 
-$$\sigma_t^2 = \frac{1}{L-1}\sum_{i=0}^{L}(Spread_{t-i} - \mu_t)^2$$
 
 Where $\mu_t$ and $\sigma_t$ are the moving average and moving standard deviation of the spread and $L$ is the size of the window.
 
