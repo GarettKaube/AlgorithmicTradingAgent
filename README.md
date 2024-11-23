@@ -1,5 +1,6 @@
 # Algorithmic Trading Agent using XGBoost and hidden Markov models
 ### Modeling Process:
+#### Labeling
 Using the spread calculations as in Fu, Kang, Hong, and Kim (2024)
 the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolling standardization is applied to it:
 
@@ -33,6 +34,8 @@ The following plot shows the results:
 ![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
 When training the model, the 0 label was rare so observations with label 0 are dropped.
 
+#### Feature Engineering and hidden Markov model
+
 Next, features such as the entropy of price direction of both assets are calculated and technical features.
 The standard OHLCV features for each asset were also included.
 
@@ -48,6 +51,8 @@ $$ P(\mathbf{S}_n = (i_1, ..., i_n) | \mathbf{X}_n = \mathbf{x}_n) = \frac{P(\ma
 This is calculated using the Viterbi Algorithm. The following plot shows the estimated hidden states:
 
 ![output](https://github.com/user-attachments/assets/5cc1f747-1a7e-4e53-bb61-afa8f322ab3c)
+
+#### Final model and pipeline
 
 Next, XGBoost was selected as the model using Nested Purged K-fold Cross Validation as covered in "Advances in Financial Machine Learning" by Marcos Lopez de Prado (the non nested was covered). Optuna was used to tune hyperparameters with a Parzen-Tree Estimator Bayesian optimizer.
 The final Sklearn pipeline contains a custom estimator to generate the features from the HMM then the XGBoost model is fitted. The model is fitted on the earliest observation in 2017 up to 2023-07-31. The test set is on data from 2023-08-1 to 2024-11-1. The out of sample performance was exceptional with an accuracy of approximatly 80%, log loss of 0.43, and F1 score of 0.78.
