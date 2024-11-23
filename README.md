@@ -76,6 +76,12 @@ More rigorous backtesting still needs to be done. Such as backtesting on synthet
 The overall architecture is shown in the figure:
 ![FinancialAssetsDataModel-Page-2(2)](https://github.com/user-attachments/assets/1bc5885e-2408-49d4-8403-c07b02516c30)
 
+#### Dashboard
+A streamlit dashboard was developed to monitor infrastructure, the spread, prices, model predictions, and the current positions:
+
+![dashboard](https://github.com/user-attachments/assets/07d0ee51-0f29-43d9-8db0-02bc4966f1cb)
+
+
 
 References:
 
