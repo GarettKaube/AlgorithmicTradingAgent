@@ -6,7 +6,7 @@ the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolli
 
 $$Spread_t = \Delta \text{BTC-USD}_ t / \text{BTC-USD}_ {t-1} - \Delta \text{ETH-USD}_ t / \text{ETH-USD}_ {t-1}$$
 
-$$StardizedSpread_t = \frac{Spread_t - \mu_t}{\sigma_t},$$
+$$StandardizedSpread_t = \frac{Spread_t - \mu_t}{\sigma_t},$$
 
 $$\mu_t = \frac{1}{L}\sum_{i=0}^{L}Spread_{t-i}, \\; \sigma_t^2 = \frac{1}{L-1}\sum_{i=0}^{L}(Spread_{t-i} - \mu_t)^2$$
 
