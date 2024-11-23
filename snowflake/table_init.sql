@@ -23,8 +23,8 @@ create or replace TABLE DATA_ENG_DBT.STAGING.ASSET_SOURCE (
 
 CREATE STAGE my_stage;
 
-PUT 'file://C:\\Users\\armym\\OneDrive\\New folder (2)\\Documents\\ds\\financialMLgh\\snowflake\\init_csv_tables\\asset_fact_table.csv' @my_stage;
-PUT 'file://C:\\Users\\armym\\OneDrive\\New folder (2)\\Documents\\ds\\financialMLgh\\snowflake\\init_csv_tables\\position_fact_table.csv' @my_stage;
+PUT 'file://path_to_asset_fact_table.csv' @my_stage;
+PUT 'file://path_to_position_fact_table.csv' @my_stage;
 
 
 COPY INTO ASSET_SOURCE
