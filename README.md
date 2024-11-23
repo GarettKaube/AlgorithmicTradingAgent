@@ -34,7 +34,7 @@ $U(x)\text{ and }L(x)$ are determined by $U(x)=x(1+u), \\; L(x) = x(1-l),\\; \te
 The following plot shows the results:
 
 ![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
-When training the model, the 0 label was rare so observations with label 0 are dropped and -1 observations are relabled as 0 by a label encoder.
+When training the model, the 0 label was rare so observations with label 0 are dropped and -1 observations are relabled as 0 by a label encoder. So the final model will only learn if the top or bottom barriers will be touched within the holding period.
 
 #### Feature Engineering and hidden Markov model
 
