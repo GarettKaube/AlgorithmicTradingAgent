@@ -88,7 +88,13 @@ A streamlit dashboard was developed to monitor infrastructure, the spread, price
 
 ![dashboard](https://github.com/user-attachments/assets/07d0ee51-0f29-43d9-8db0-02bc4966f1cb)
 
-
+### Caveats
+- Data from Yahoo Finance is delayed by 15 minutes, so pipelines start running at the final close at 00:15 UTC
+- Crypto markets are operational 24/7 but Airflow takes time to run so there will be delay for the trade placement
+  - With realtime data, the delay shouldn't be too impactful.
+### To Do:
+- Model Monitoring
+- Model retraining pipeline
 
 References:
 
