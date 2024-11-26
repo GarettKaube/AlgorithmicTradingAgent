@@ -1,6 +1,8 @@
 # Algorithmic Trading Agent using XGBoost and hidden Markov models
 ### Modeling Process:
 #### Labeling
+
+
 Using the spread calculations as in Fu, Kang, Hong, and Kim (2024)
 the return spread between Bitcoin-USD and Ethereum-USD is calculated and a rolling standardization is applied to it:
 
@@ -13,23 +15,24 @@ $$\mu_t = \frac{1}{L}\sum_{i=0}^{L}Spread_{t-i}, \\; \sigma_t^2 = \frac{1}{L-1}\
 
 Where $\mu_t$ and $\sigma_t$ are the moving average and moving standard deviation of the spread and $L$ is the size of the window.
 
+
 The spread is then labeled using the triple barrier method. 
 Given a spread observation: $s_ {t_i}$ and $s_ {t_ {i+1}},..., s_ {t_{i+n}}$ 
 are the spread values after ${t_i}$ and $t_ {i+n}$ is the timestamp of the max holding period. The label function is as follows:
 
-$$ UT(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \geq U(s_ {t_i}), i < j < i+n \\} \cup \\{ t_{i+n} \\}\right) $$
-$$ LT(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \leq L(s_ {t_i}), i < j< i+n \\} \cup \\{ t_{i+n} \\}\right) $$
+$$ f_U(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \geq U(s_ {t_i}), i < j < i+n \\} \cup \\{ t_{i+n} \\}\right) $$
+$$ f_L(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \leq L(s_ {t_i}), i < j< i+n \\} \cup \\{ t_{i+n} \\}\right) $$
 
 $$
 f(s_ {t_i}) =
 \begin{cases} 
-1, & \text{if } UT(s_ {t_i}) \gt LT(s_ {t_i}) \\
--1, & \text{if } UT(s_ {t_i}) \lt LT(s_ {t_i}) \\
+1, & \text{if } f_U(s_ {t_i}) \gt f_L(s_ {t_i}) \\
+-1, & \text{if } f_U(s_ {t_i}) \lt f_L(s_ {t_i}) \\
 0, & else
 \end{cases}
 $$
 
-Where $U\text{ and }L$ are the upper and lower thresholds for labeling. $UT\text{ and }LT$ are the first touch times for each barrier.
+Where $U\text{ and }L$ are the upper and lower thresholds for labeling. $f_U\text{ and }f_L$ are the first touch times for each barrier.
 $U(x)\text{ and }L(x)$ are determined by $U(x)=x(1+u), \\; L(x) = x(1-l),\\; \text{ where } u \in \mathbb{R}_ {\ge 0},\\; l \in \mathbb{R}_ {\ge 0}$ are tuning parameters.
 The following plot shows the results:
 
