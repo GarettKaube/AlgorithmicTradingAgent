@@ -12,15 +12,15 @@ def triple_barrier_labeling(data, take_profit, stop_loss, holding_period):
         # Define the window for holding period
         window = data[(data.index > entry_time) & (data.index <= end_time)]
 
-        upper = entry_price*(1 + take_profit)
-        lower = entry_price*(1 - stop_loss)
+        upper = abs(entry_price)*(1 + take_profit)
+        lower = abs(entry_price)*(1 - stop_loss)
         
         # Initialize label as neutral
         label = 0
         touch_time = end_time
         # Check if barriers are hit within the holding period
         for t1, future_row in window.iterrows():
-            future_price = future_row['standardized_spread']
+            future_price = abs(future_row['standardized_spread'])
             
             if future_price >= upper:
                 label = 1  # Take profit hit
