@@ -20,8 +20,8 @@ The spread is then labeled using the triple barrier method.
 Given a spread observation: $s_ {t_i}$ and $s_ {t_ {i+1}},..., s_ {t_{i+n}}$ 
 are the spread values after ${t_i}$ and $t_ {i+n}$ is the timestamp of the max holding period. The label function is as follows:
 
-$$ f_U(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  \left|s_ {t_j}\right| \geq U(s_ {t_i}), i < j < i+n \\} \cup \\{ t_{i+n} \\}\right) $$
-$$ f_L(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  \left|s_ {t_j}\right| \leq L(s_ {t_i}), i < j< i+n \\} \cup \\{ t_{i+n} \\}\right) $$
+$$ f_U(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \geq U(s_ {t_i}), i < j < i+n \\} \cup \\{ t_{i+n} \\}\right) $$
+$$ f_L(s_ {t_i})  = \text{min}\left(\\{ t_{j} :  s_ {t_j} \leq L(s_ {t_i}), i < j< i+n \\} \cup \\{ t_{i+n} \\}\right) $$
 
 $$
 f(s_ {t_i}) =
@@ -33,7 +33,7 @@ f(s_ {t_i}) =
 $$
 
 Where $U\text{ and }L$ are the upper and lower thresholds for labeling. $f_U\text{ and }f_L$ are the first touch times for each barrier.
-$U(x)\text{ and }L(x)$ are determined by $U(x)=|x|(1+u), \\; L(x) = |x|(1-l),\\; \text{ where } u \in \mathbb{R}_ {\ge 0},\\; l \in \mathbb{R}_ {\ge 0}$ are tuning parameters.
+$U(x)\text{ and }L(x)$ are determined by $U(x)=x(1+u), \\; L(x) = x(1-l),\\; \text{ where } u \in \mathbb{R}_ {\ge 0},\\; l \in \mathbb{R}_ {\ge 0}$ are tuning parameters.
 The following plot shows the results:
 
 ![newplot](https://github.com/user-attachments/assets/5a7d82b9-d225-43bb-8007-0d84cdb5ecb4)
