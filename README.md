@@ -69,7 +69,7 @@ Backtrader was used for backtesting. The strategy as outlined in the paper is as
 - When the XGBoost predicts 0, ETH is overperforming so we buy BTC expecting it to catch up to BTC.
 - We hold until any of the 3 barriers are touched.
   
-The out of sample results with a constant position size of 40% and starting capital of 100,000:
+The out of sample results with a constant position size of 40% and starting capital of 1,000,000:
 
 | Metric              | Value             |
 |---------------------|-------------------|
