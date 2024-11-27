@@ -73,12 +73,12 @@ The out of sample results with a constant position size of 40% and starting capi
 
 | Metric              | Value             |
 |---------------------|-------------------|
-|Final Portfolio Value| 1297290.84        |
-|Cumulative Return    | 0.2758925832934964|
-|Sharpe Ratio | 1.0722631487780885|
-|Profit_ratio| 1.2972908434492345|
-|drawdown pct| 0.056595542654838855|
-|Drawdown cash| 77825.45301171998|
+|Final Portfolio Value| 1372916.54        |
+|Cumulative Return    | 0.3307171586908926|
+|Sharpe Ratio | 1.41967699533319|
+|Profit_ratio| 1.3729165371503622|
+|drawdown pct| 0.0 (Bugged)|
+|Drawdown cash| 0.0 (Bugged)|
 
 More rigorous backtesting still needs to be done. Such as backtesting on synthetic data.
 
