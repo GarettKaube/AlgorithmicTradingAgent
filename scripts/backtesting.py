@@ -59,7 +59,7 @@ class Strategy(bt.Strategy):
             self.buyprice = order.executed.price
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
-            self.log('Order Canceled/Margin/Rejected')
+            self.log('Order Canceled/Margin/Rejected', order.status)
 
         if order == self.order:
             self.order = None
@@ -74,39 +74,50 @@ class Strategy(bt.Strategy):
                  (trade.pnl, trade.pnlcomm))
         
     def next(self):
-        if self.hold:
-            self.buy()
-        
         position1 = self.getposition(self.datas[0])
         position2 = self.getposition(self.datas[1])
+        if self.hold:
+            if not position1 and not position2:
+                self.buy()
+        else:
+            if not position1 and not position2: 
+                # Buying conditions
+                if self.labels[0] == 1:
+                    # Buy eth
+                    print("buying eth")
+                    self.buy(data = self.datas[1])
+                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
+                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
 
-        if not position1 and not position2: 
-            # Buying conditions
-            if self.labels[0] == 1:
-                # Buy eth
-                self.buy(data = self.datas[1])
-                self.upper = self.standardized_spread[0]*(1 + self.params.upper)
-
-            elif self.labels[0]  == -1:
-                # Buy BTC
-                self.buy(data = self.datas[0])
+                elif self.labels[0]  == -1:
+                    # Buy BTC
+                    print("buying btc")
+                    self.buy(data = self.datas[0])
+                    
+                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
+                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
+            
+            if position1 or position2:
                 
-            self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
-            self.lower = self.standardized_spread[0]*(1 - self.params.lower)
-        
-        if position1 or position2:
-            # Position closing conditions
-            if self.days_in_trade == self.params.t1_days:
-                self.close(data=self.datas[1])
-                self.close(data=self.datas[0])
-                self.days_in_trade = 0
-                
-            if self.standardized_spread[0] >= self.upper or self.standardized_spread[0] <= self.lower:
-                self.close(data=self.datas[1])
-                self.close(data=self.datas[0])
-                self.days_in_trade = 0
-            else:
-                self.days_in_trade += 1 
+                # Position closing conditions
+                if self.days_in_trade == self.params.t1_days:
+                    self.close(data=self.datas[1])
+                    self.close(data=self.datas[0])
+                    self.days_in_trade = 0
+                if  self.standardized_spread[0] > 0:   
+                    if self.standardized_spread[0] >= self.upper or self.standardized_spread[0] <= self.lower:
+                        self.close(data=self.datas[1])
+                        self.close(data=self.datas[0])
+                        self.days_in_trade = 0
+                    else:
+                        self.days_in_trade += 1 
+                elif self.standardized_spread[0] <= 0:
+                    if self.standardized_spread[0] <= self.upper or self.standardized_spread[0] >= self.lower:
+                        self.close(data=self.datas[1])
+                        self.close(data=self.datas[0])
+                        self.days_in_trade = 0
+                    else:
+                        self.days_in_trade += 1 
 
 
 if __name__ == "__main__":
