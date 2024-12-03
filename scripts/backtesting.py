@@ -9,7 +9,7 @@ class Strategy(bt.Strategy):
     )
     def __init__(self):
         self.buyprice = None
-        self.hold = False
+        self.hold = True
 
         self.orders = []
         self.trailing_order = None
@@ -79,26 +79,8 @@ class Strategy(bt.Strategy):
         if self.hold:
             if not position1 and not position2:
                 self.buy()
-        else:
-            if not position1 and not position2: 
-                # Buying conditions
-                if self.labels[0] == 1:
-                    # Buy eth
-                    print("buying eth")
-                    self.buy(data = self.datas[1])
-                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
-                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
-
-                elif self.labels[0]  == -1:
-                    # Buy BTC
-                    print("buying btc")
-                    self.buy(data = self.datas[0])
-                    
-                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
-                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
-            
-            if position1 or position2:
-                
+        
+        elif position1 or position2: 
                 # Position closing conditions
                 if self.days_in_trade == self.params.t1_days:
                     self.close(data=self.datas[1])
@@ -118,6 +100,25 @@ class Strategy(bt.Strategy):
                         self.days_in_trade = 0
                     else:
                         self.days_in_trade += 1 
+        else:
+            if not position1 and not position2: 
+                # Buying conditions
+                if self.labels[0] == 1:
+                    # Buy eth
+                    print("buying eth")
+                    self.buy(data = self.datas[1])
+                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
+                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
+
+                elif self.labels[0]  == -1:
+                    # Buy BTC
+                    print("buying btc")
+                    self.buy(data = self.datas[0])
+                    
+                    self.upper = self.standardized_spread[0]*(1 + self.params.upper)  
+                    self.lower = self.standardized_spread[0]*(1 - self.params.lower)
+            
+            
 
 
 if __name__ == "__main__":
