@@ -9,14 +9,17 @@ from datetime import datetime
 import json
 import pytz
 
-sqs = boto3.client('sqs', region_name='us-west-1')
+sqs = boto3.client('sqs', region_name='us-west-1')  # replace with your AWS region
 
 UPPER = 0.662016
 LOWER = 0.220194
+
 TIMEZONE = pytz.timezone('America/Denver')
+
 BUCKET_NAME = "mybucket1654"
 
-queue_url = ''
+# Specify your queue URL
+queue_url = 'https://sqs.us-west-1.amazonaws.com/390402566290/FinPredictionQueue'
 
 def connect_to_snowflake(schema):
     """ Connects to snowflake with schema
@@ -199,15 +202,7 @@ class Trader:
         upper = old_spread*(1 + self.upper_thresh_mp)
         lower = old_spread*(1 - self.lower_thresh_mp)
         
-        if self.account['symbol'] is None: # Check if we do not have a position open
-            if prediction == 1:
-                size = self.calculate_position_size("ETH-USD")
-                self.buy("ETH-USD", amount=size)
-            elif prediction == 0:
-                size = self.calculate_position_size("BTC-USD")
-                self.buy("BTC-USD", amount=size)
-
-        else:
+        if self.account['symbol'] is not None:
             current_symbol = self.account['symbol']
             current_spread = self.spread["standardized_spread"].iloc[-1].item()
             
@@ -222,6 +217,16 @@ class Trader:
                 size = self.account['amount']
                 self.sell(current_symbol, size)
         
+        self.save_account()
+        self.load_account()
+        if self.account['symbol'] is None: # Check if we do not have a position open
+            if prediction == 1:
+                size = self.calculate_position_size("ETH-USD")
+                self.buy("ETH-USD", amount=size)
+            elif prediction == 0:
+                size = self.calculate_position_size("BTC-USD")
+                self.buy("BTC-USD", amount=size)
+
         self.save_account()
         return self.account
 
@@ -270,11 +275,16 @@ def lambda_handler(event, context):
 
     try:
         for record in event['Records']:
+            # Get the message body
             message_body = record['body']
             
+            # Process the message
             print("Processing message:", message_body)
+            
+            # If the message is JSON, parse it
             try:
                 data = json.loads(message_body)
+                # Handle message data here (e.g., call a service, write to a database)
                 print("Message data:", data)
             except json.JSONDecodeError:
                 print("Message is not in JSON format")
@@ -282,7 +292,9 @@ def lambda_handler(event, context):
             else:
                 date = data['date']
                 prediction = data['direction'][date]
+
                 spread = data['spread']
+
                 account = trader.trade(prediction, spread)
                 print(account)
                 load_account_to_snowflake(account)
@@ -292,6 +304,7 @@ def lambda_handler(event, context):
         prediction = list(event['direction'].keys())[0]
         confidence = list(event['confidence'].keys())[0]
         spread = event['spread']
+
         account = trader.trade(prediction, spread)
         load_account_to_snowflake(account)
         print(account)
