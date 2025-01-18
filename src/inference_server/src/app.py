@@ -85,14 +85,14 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Implement security 
-fake_users_db = {
-    "bobjames": {
-        "username": "bobjames",
-        "full_name": "Bob James",
-        "email": "bobjames@example.com",
-        "hashed_password": pswd,
-        "disabled": False,
-    }
+users_db = {
+"bobjames": {
+    "username": "",
+    "full_name": "",
+    "email": "",
+    "hashed_password": pswd,
+    "disabled": False,
+}
 }
 
 
