@@ -18,7 +18,6 @@ TIMEZONE = pytz.timezone('America/Denver')
 
 BUCKET_NAME = "mybucket1654"
 
-# Specify your queue URL
 queue_url = 'https://sqs.us-west-1.amazonaws.com/390402566290/FinPredictionQueue'
 
 def connect_to_snowflake(schema):
@@ -37,8 +36,8 @@ def connect_to_snowflake(schema):
     """
     conn = snowflake.connector.connect(
         user='bobjames',
-        password='25382538Halo!',
-        account="itzmlzs-cg90959",
+        password='',
+        account="",
         warehouse='COMPUTE_WH',
         database='DATA_ENG_DBT',
         schema=schema,
