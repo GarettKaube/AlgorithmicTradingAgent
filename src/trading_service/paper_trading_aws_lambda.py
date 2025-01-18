@@ -274,13 +274,9 @@ def lambda_handler(event, context):
 
     try:
         for record in event['Records']:
-            # Get the message body
             message_body = record['body']
-            
-            # Process the message
             print("Processing message:", message_body)
-            
-            # If the message is JSON, parse it
+
             try:
                 data = json.loads(message_body)
                 # Handle message data here (e.g., call a service, write to a database)
